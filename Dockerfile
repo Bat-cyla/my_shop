@@ -26,7 +26,9 @@ RUN curl -sL https://deb.nodesource.com/setup_19.x | bash -
 RUN apt-get install -y nodejs
 
 # ADD php.ini /usr/local/etc/php/conf.d/php.ini
-
 WORKDIR /var/www
+COPY --chown=www-data:www-data ./ /var/www
+RUN chmod -R 777 /var/www/templates_c
+RUN chmod -R 777 /var/www/cache
 
 CMD ["php-fpm"]
