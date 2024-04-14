@@ -14,6 +14,10 @@ class HomeController extends Controller
         $product = new ProductModel();
         $productsArr=$product->getProducts();
         $this->templateEngine->assign('productsArr', $productsArr);
+        if($_SESSION['status']==1){
+            $admin=true;
+            $this->templateEngine->assign('admin',$admin);
+        }
         $this->templateEngine->display('store.tpl');
     }
     public function show($id)

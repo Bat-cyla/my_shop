@@ -15,16 +15,27 @@ class LoginController extends Controller
 
     }
     public function input(){
-        $userModel = new UserModel();
-        $userArr=$userModel->getUsers();
-        $users=$userArr[0];
         $userLog=$_POST['log'];
         $userPass=$_POST['pass'];
-        if($userLog==$users['login'] OR $userLog==$users['email']) {
-                if($userPass==$users['password']){
-                    $is_auth=true;
-                    $this->templateEngine->assign('is_auth',$is_auth);
-                    header('location: /products');
+        $userModel = new UserModel();
+        $userArr=$userModel->getUser($userLog);
+        $user=$userArr[0];
+
+
+        if($userLog==$user['login'] OR $userLog==$user['email']) {
+                if($userPass==$user['password']){
+
+                    switch($user['status_id']){
+                        case 1:
+                            $_SESSION['status']=1;
+                            header('location: /products');
+                            die;
+                        case 2:
+                            $_SESSION['status']=2;
+                            header('location: /store');
+                            die;
+                    }
+
                 }
         } else {
             header('location: /login');

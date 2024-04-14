@@ -4,7 +4,10 @@
         <div class="card-body">
             <h5 class="card-title">{$elems.title}</h5>
             <p class="card-text">{$elems.description}</p>
-            <a href="show/{$elems.id}" class="card-link">К товару</a>
+            <a href="/show/{$elems.id}" class="card-link">К товару</a>
         </div>
     </div>
 {/foreach}
+{if ($admin==true)}
+    <a href="/products" class="card-link">Назад</a>
+    {/if}
