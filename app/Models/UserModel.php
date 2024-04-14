@@ -2,7 +2,10 @@
 
 namespace App\Models;
 
-class UserModel
+class UserModel extends MainModel
 {
-
+    public function getUsers(){
+    $model = new mainModel();
+    return $model->query('SELECT * FROM users');
+    }
 }

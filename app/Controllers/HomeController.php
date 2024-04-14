@@ -1,12 +1,27 @@
 <?php
 namespace App\Controllers;
-use App\Models\UserModel;
-class HomeController
+use App\Models\ProductModel;
+class HomeController extends Controller
 {
     public function index()
     {
-        include_once __DIR__ . '/../../views/pages/home.php';
+        $this->templateEngine->display('index.tpl');
 
+    }
+
+    public function store()
+    {
+        $product = new ProductModel();
+        $productsArr=$product->getProducts();
+        $this->templateEngine->assign('productsArr', $productsArr);
+        $this->templateEngine->display('store.tpl');
+    }
+    public function show($id)
+    {
+        $product = new ProductModel();
+        $product=$product->getProduct($id);
+        $this->templateEngine->assign('product', $product);
+        $this->templateEngine->display('show.tpl');
     }
 
 }

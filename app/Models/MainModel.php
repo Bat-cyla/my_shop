@@ -3,7 +3,7 @@ namespace App\Models;
 use PDO;
 
 require_once __DIR__ . '/../../vendor/autoload.php';
-class UserModel
+class MainModel
 {
 
     public $pdo;

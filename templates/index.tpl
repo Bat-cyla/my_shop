@@ -1,2 +1,5 @@
 {* Smarty *}
-<h1>Hello {$data.name} {$data.surname} welcome to Smarty!</h1>
+{include file='main.tpl'}
+
+    <a href="/login" class="btn btn-primary">Войти</a>
+   <div> <a href="/store" class="btn btn-primary">К товарам</a></div>

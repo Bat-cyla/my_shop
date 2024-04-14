@@ -1,8 +1,8 @@
 <?php
 namespace App\Controllers;
 use App\Models\UserModel;
-use Smarty\Smarty;
-class LoginController
+
+class LoginController extends Controller
 {
     public function login()
     {
@@ -11,19 +11,22 @@ class LoginController
             echo $_SESSION['flash'];
             unset($_SESSION['flash']);
         }
-        include_once __DIR__ . '/../../views/pages/login.php';
+        $this->templateEngine->display('login.tpl');
 
     }
     public function input(){
-        $model=new UserModel();
-        $userArr=$model->query('SELECT * FROM users');
+        $userModel = new UserModel();
+        $userArr=$userModel->getUsers();
         $users=$userArr[0];
         $userLog=$_POST['log'];
         $userPass=$_POST['pass'];
-        if($userLog==$users['login'] OR $userLog==$users['email'] AND $userPass==$users['password']){
-            header('location: /showcase');
-            die();
-        }else {
+        if($userLog==$users['login'] OR $userLog==$users['email']) {
+                if($userPass==$users['password']){
+                    $is_auth=true;
+                    $this->templateEngine->assign('is_auth',$is_auth);
+                    header('location: /products');
+                }
+        } else {
             header('location: /login');
             $_SESSION['flash']='Неверный логин или пароль';
             die();

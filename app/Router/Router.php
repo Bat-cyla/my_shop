@@ -9,7 +9,7 @@ class Router
     private array $routes=[
         'GET'=>[],
         'POST'=>[],
-        ];
+    ];
     public function __construct()
     {
         $this->initRoutes();
@@ -18,16 +18,26 @@ class Router
 
     public function dispatch(string $url, string $method): void
     {
+        $route = $this->findRoute($url, $method);
 
-        $route=$this->findRoute($url, $method);
+        if (is_array($route)) {
+            [$route, $params] = $route;
+        }
+
         if(!$route){
             $this->notFound();
             return;
         }
+
         if(is_array($route->getAction())){
             [$controller,$action]=$route->getAction();
             $controller=new $controller();
-            call_user_func([$controller, $action]);
+
+            if (isset($params)) {
+                call_user_func([$controller, $action], ...$params);
+            } else {
+                call_user_func([$controller, $action]);
+            }
         }else{
             $route->getAction()();
         }
@@ -35,11 +45,9 @@ class Router
     }
     public function match($url, $method)
     {
-        $routes=self::getRoutes();
-        foreach ($routes as $route) {
-            if ($route->getMethod() === $method && preg_match($route->getUrl(), $url, $matches)) {
-                array_shift($matches); // Удаляем первый элемент (полное совпадение)
-                $this->routes[$route->getMethod()][$route->getUrl()] = $route;
+        foreach ($this->routes[$method] as $route) {
+            if ($params = $this->matchUrl($route->getUrl(), $url)) {
+                return [$route, $params];
             }
         }
         return null;
@@ -50,11 +58,12 @@ class Router
         echo '404 | Not Found';
         exit;
     }
-    private function findRoute(string $url, string $method): Route|false
+    private function findRoute(string $url, string $method): Route|array|null
     {
-        if(!isset($this->routes[$method][$url])){
-            $this->match($url, $method);
+        if (!isset($this->routes[$method][$url])){
+            return $this->match($url, $method);
         }
+
         return $this->routes[$method][$url];
     }
     private function initRoutes(): void
@@ -71,6 +80,35 @@ class Router
 
     public function getRoutes() : array
     {
-         return require_once APP_PATH . '/app/routes.php';
+        return require_once APP_PATH . '/app/routes.php';
+    }
+
+    public function matchUrl($pattern, $url): array|null {
+        $patternParts = explode('/', $pattern);
+        $urlParts = explode('/', $url);
+
+        if (count($patternParts) !== count($urlParts)) {
+            return null;
+        }
+
+        $paramNames = [];
+        foreach ($patternParts as $index => $part) {
+            if (strpos($part, '{') === 0 && strrpos($part, '}') === strlen($part) - 1) {
+                $paramNames[$index] = substr($part, 1, -1);
+            }
+        }
+
+        $data = [];
+        foreach ($patternParts as $index => $part) {
+            if ($part !== $urlParts[$index]) {
+                if (isset($paramNames[$index])) {
+                    $data[$paramNames[$index]] = $urlParts[$index];
+                } else {
+                    return null;
+                }
+            }
+        }
+
+        return $data;
     }
 }
