@@ -1,0 +1,3 @@
+адрес http://dmitr30x.beget.tech/
+бд dmitr30x_shop_db
+пароль бд ~X#|J9sw

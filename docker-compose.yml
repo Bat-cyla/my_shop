@@ -4,7 +4,7 @@ version: "3.7"
 services:
     app:
         build:
-            context: ./docker-compose/php-fpm
+            context: ./
         volumes:
             - ~/.ssh:/home/dmitriy/.ssh:rw
             - ./:/var/www
