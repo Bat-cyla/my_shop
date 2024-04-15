@@ -29,6 +29,6 @@ RUN apt-get install -y nodejs
 WORKDIR /var/www
 COPY --chown=www-data:www-data ./ /var/www
 RUN chmod -R 777 /var/www/templates_c
-RUN chmod -R 777 /var/www/cache
+
 
 CMD ["php-fpm"]
