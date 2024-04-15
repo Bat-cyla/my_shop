@@ -6,7 +6,6 @@ class UserModel extends MainModel
 {
     public function getUser($login): array
     {
-    $model = new mainModel();
-    return $model->query("SELECT * FROM users WHERE login = '$login'");
+    return $this->query("SELECT * FROM users WHERE login = '$login' OR email='$login'");
     }
 }

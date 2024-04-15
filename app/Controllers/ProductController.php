@@ -5,7 +5,6 @@ class ProductController extends Controller
 {
     public function showcase()
     {
-
         $products=new ProductModel();
         $productsArr=$products->getProducts();
         $this->templateEngine->assign('productsArr',$productsArr);

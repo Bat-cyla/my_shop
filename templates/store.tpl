@@ -9,5 +9,5 @@
     </div>
 {/foreach}
 {if ($admin==true)}
-    <a href="/products" class="card-link">Назад</a>
+    <a href="/products" class="btn btn-primary">Назад</a>
     {/if}

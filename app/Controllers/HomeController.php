@@ -3,21 +3,18 @@ namespace App\Controllers;
 use App\Models\ProductModel;
 class HomeController extends Controller
 {
+
     public function index()
     {
-        $this->templateEngine->display('index.tpl');
-
-    }
-
-    public function store()
-    {
         $product = new ProductModel();
-        $productsArr=$product->getProducts();
+        $productsArr = $product->getProducts();
         $this->templateEngine->assign('productsArr', $productsArr);
-        if($_SESSION['status']==1){
-            $admin=true;
-            $this->templateEngine->assign('admin',$admin);
-        }
+        if(isset($_SESSION['auth'])){
+            if ($_SESSION['status'] == 1) {
+                $admin = true;
+                $this->templateEngine->assign('admin', $admin);
+                }
+            }
         $this->templateEngine->display('store.tpl');
     }
     public function show($id)

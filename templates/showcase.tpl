@@ -12,3 +12,4 @@
 
 <div>  <a href="/products/create" class="btn btn-primary">Добавить товар</a></div>
 <div>   <a href="/store" class="btn btn-primary">Просмотреть витрину</a></div>
+<div> <a href ='/logout' class="btn btn-primary">Выйти</a></div>

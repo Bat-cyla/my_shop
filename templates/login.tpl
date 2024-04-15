@@ -1,5 +1,5 @@
 {include file='main.tpl'}
-<form class="form" action="/login/input" method="POST">
+<form class="form" action="/input" method="POST">
     <div class="mb-3">
         <label for="exampleInputEmail1" class="form-label">Введите логин или @mail</label>
         <input type="text" class="form-control" name = "log" id="exampleInputEmail1" aria-describedby="emailHelp">
