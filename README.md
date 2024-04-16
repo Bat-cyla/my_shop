@@ -10,5 +10,3 @@
    /admin
   логин : test_user1
   пароль : 123123123
-- удаление
-   docker compose down -v
